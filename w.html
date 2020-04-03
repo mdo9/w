@@ -95,7 +95,7 @@
                         console.log('fail: ' + request.status);
                         show_message('测试' + j + ": 返回状态码 " + request.status + '<br>');
                         if (j < try_again) {
-                            check(++j);
+                            check(++j, u);
                         } else {
                             go(default_url);
                         }
@@ -105,7 +105,7 @@
                     console.log('onerror:  ' + j + ' fail');
                     show_message('测试' + j + ': 连接错误<br>');
                     if (j < try_again) {
-                            load(++j);
+                            check(++j, u);
                         } else {
                             go(default_url);
                         }
