@@ -60,12 +60,12 @@
                             let server = json.server;
                             let p = get('p');
                             let u = 'https://' + server;
-                            let t = u;
                             if (p === '') {
                                 u += '/ccc';
                             } else {
                                 u += '/' + p;
                             }
+                            let t = u;
                             for (let j = 0; j < 3; j++) {
                                 let request2 = new XMLHttpRequest();
                                 request2.open('get', t);
