@@ -72,7 +72,8 @@
                                 request2.send(null);
                                 request2.onload = function () {
                                     if (request.status === 200) {
-                                        window.location.replace(u);
+                                        //window.location.replace(u);
+                                        show_message('测试' + j + ": 返回状态码 " + request.status + '<br>');
                                     } else {
                                         console.log('fail: ' + request.status);
                                         show_message('测试' + j + ": 返回状态码 " + request.status + '<br>');
