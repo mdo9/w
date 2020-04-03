@@ -94,8 +94,8 @@
                     } else {
                         console.log('fail: ' + request.status);
                         show_message('测试' + j + ": 返回状态码 " + request.status + '<br>');
-                        if (j < urls.length) {
-                            load(++j);
+                        if (j < try_again) {
+                            check(++j);
                         } else {
                             go(default_url);
                         }
@@ -104,7 +104,7 @@
                 request2.onerror = function () {
                     console.log('onerror:  ' + j + ' fail');
                     show_message('测试' + j + ': 连接错误<br>');
-                    if (j < urls.length) {
+                    if (j < try_again) {
                             load(++j);
                         } else {
                             go(default_url);
@@ -117,6 +117,7 @@
             }
 
             const default_url = 'https://git.io/g';
+            const try_again = 3;
             let urls = ['raw.githubusercontent.com', 'raw.githack.com', ''];
             load(0);
         }
