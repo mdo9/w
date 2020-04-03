@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="zh_CN">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>欢迎</title>
+    <script>
+        window.onload = function () {
+            function get(name) {
+                const parts = window.location.href.split('?');
+                if (parts.length > 1) {
+                    name = encodeURIComponent(name);
+                    const params = parts[1].split('&');
+                    const found = params.filter(el => (el.split('=')[0] === name) && el);
+                    if (found.length) return decodeURIComponent(found[0].split('=')[1]);
+                }
+                return "";
+            }
+
+            function get_latest_url(url) {
+                if (url.length > 0) {
+                    let urls = window.location.href.split('?')[0].replace("https://", "").split('/');
+                    console.log(urls);
+                    if (urls.length === 5) {
+                        urls[0] = url;
+                        urls[3] = 'master';
+                        urls[4] = 'latest.json';
+                        let latest = "https://";
+                        for (let i = 0; i < urls.length; i++) {
+                            latest += urls[i];
+                            if (i < 4) {
+                                latest += "/"
+                            }
+                        }
+                        return latest
+                    }
+                }
+                return 'latest.json';
+            }
+
+            let msg = '';
+            function show_message(m) {
+                msg += m;
+                document.getElementById("msg").innerHTML = msg;
+            }
+
+            let urls = ['raw.githubusercontent.com', 'raw.githack.com', ''];
+
+            for (let i = 0; i < urls.length; i++) {
+                let latest_url = get_latest_url(urls[i]);
+                let request = new XMLHttpRequest();
+                request.open('get', latest_url);
+                request.send(null);
+                request.onload = function () {
+                    if (request.status === 200) {
+                        try {
+                            console.log(request.responseText);
+                            let data = window.atob(request.responseText);
+                            let json = JSON.parse(data);
+                            console.log(json);
+                            let server = json.server;
+                            let p = get('p');
+                            let u = 'https://' + server;
+                            let t = 'https://' + server + '/welcome.html';
+                            if (p === '') {
+                                u += '/ccc';
+                            } else {
+                                u += '/' + p;
+                            }
+                            for (let j = 0; j < 3; j++) {
+                                let request2 = new XMLHttpRequest();
+                                request2.open('get', t);
+                                request2.send(null);
+                                request2.onload = function () {
+                                    if (request.status === 200) {
+                                        window.location.replace(u);
+                                    } else {
+                                        console.log('fail: ' + request.status);
+                                        show_message('测试' + j + ": 返回状态码 " + request.status + '<br>');
+                                    }
+                                };
+                                request2.onerror = function () {
+                                    console.log('onerror:  ' + j + ' fail');
+                                    show_message('测试' + j + ': 连接错误<br>');
+                                };
+
+                            }
+                        } catch (e) {
+                            console.log(e);
+                            show_message('测试' + j + ': 出现错误' + e.message + '<br>');
+                        }
+                    } else {
+                        console.log('read ' + latest_url + ' fail, request.status' + request.status);
+                        show_message('获取信息错误： ' + i + '返回状态码 ' + request.status + '<br>');
+                    }
+                };
+                request.onerror = function () { // only triggers if the request couldn't be made at all
+                    console.log('onerror: ' + latest_url);
+                    show_message('获取信息错误： ' + i + '<br>');
+                };
+            }
+            //window.location.replace('https://git.io/g');
+        }
+    </script>
+</head>
+<body>
+<noscript>
+    <p>
+        需要开启浏览器 Javascript 支持，或者请换一个浏览器试试
+    </p>
+</noscript>
+<h1>正在打开网站，请稍后……</h1>
+<p id="msg"></p>
+</body>
+</html>
