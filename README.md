@@ -14,6 +14,9 @@
 
 <IMG SRC="https://github.com/ofn1/Victoria/blob/master/fngrchn3.jpg" width=640>
   
+  
+  [华为难保德国市场？德高官：更愿意多与日本和美国合作](https://github.com/mdo9/w/blob/master/test.md)
+  
 <h2><p><strong>免费翻墙软件下载</strong></p></h2>
 安全免费，绿色智能，帮您破除网络封禁，一键上外网。<br>
 
